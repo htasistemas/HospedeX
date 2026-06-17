@@ -1,0 +1,28 @@
+{
+  "name": "hospedex-network",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Plataforma operacional multi-tenant para hotelaria HospedeX Network.",
+  "packageManager": "pnpm@9.12.3",
+  "scripts": {
+    "dev": "concurrently -n BACKEND,FRONTEND -c cyan,green \"corepack pnpm dev:api:memory\" \"corepack pnpm dev:web\"",
+    "backend": "corepack pnpm dev:api:memory",
+    "frontend": "corepack pnpm dev:web",
+    "build": "corepack pnpm -r build",
+    "test": "corepack pnpm -r test",
+    "lint": "corepack pnpm -r lint",
+    "db:up": "docker compose up -d postgres",
+    "db:down": "docker compose down",
+    "db:logs": "docker compose logs -f postgres",
+    "dev:api": "corepack pnpm --filter @hospedex/api start:dev",
+    "dev:api:memory": "corepack pnpm --filter @hospedex/api start:dev:memory",
+    "dev:web": "corepack pnpm --filter @hospedex/web dev"
+  },
+  "workspaces": [
+    "apps/*",
+    "packages/*"
+  ],
+  "devDependencies": {
+    "concurrently": "^9.1.0"
+  }
+}
