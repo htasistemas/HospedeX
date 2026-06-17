@@ -58,6 +58,7 @@ const navItems: Array<{ key: ModuleKey; label: string; icon: typeof Home }> = [
 ];
 
 const days = ["Ter 01", "Qua 02", "Qui 03", "Sex 04", "Sab 05", "Dom 06", "Seg 07"];
+const slotsPerDay = 2;
 
 const moduleMeta: Record<ModuleKey, { title: string; subtitle: string; crumb: string }> = {
   dashboard: {
@@ -329,9 +330,9 @@ export function OperationsPage() {
   }, [activeModule]);
 
   return (
-    <div className="min-h-screen bg-slate-50 text-slate-950">
-      <div className="grid min-h-screen lg:grid-cols-[264px_1fr]">
-        <aside className="hidden border-r border-slate-200 bg-slate-950 text-white lg:flex lg:flex-col">
+    <div className="h-screen overflow-hidden bg-slate-50 text-slate-950">
+      <div className="grid h-screen lg:grid-cols-[264px_1fr]">
+        <aside className="hidden h-screen border-r border-slate-200 bg-slate-950 text-white lg:sticky lg:top-0 lg:flex lg:flex-col">
           <div className="flex h-16 items-center gap-3 border-b border-white/10 px-5">
             <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-teal-500">
               <Hotel className="h-5 w-5" />
@@ -371,7 +372,7 @@ export function OperationsPage() {
           </div>
         </aside>
 
-        <main className="min-w-0">
+        <main className="min-w-0 overflow-y-auto">
           <header className="sticky top-0 z-20 border-b border-slate-200 bg-white/95 backdrop-blur">
             <div className="flex h-16 items-center gap-3 px-4 lg:px-6">
               <Button className="lg:hidden" size="icon" variant="outline" aria-label="Abrir menu">
@@ -576,8 +577,12 @@ function TimelineCalendar() {
           <div className="grid grid-cols-[180px_repeat(7,minmax(104px,1fr))] border-b border-slate-200 bg-slate-50">
             <div className="px-4 py-3 text-xs font-semibold uppercase text-slate-500">Quarto</div>
             {days.map((day) => (
-              <div className="border-l border-slate-200 px-3 py-3 text-center text-xs font-semibold uppercase text-slate-500" key={day}>
-                {day}
+              <div className="border-l border-slate-200 px-2 py-2 text-center" key={day}>
+                <div className="text-xs font-semibold uppercase text-slate-500">{day}</div>
+                <div className="mt-1 grid grid-cols-2 overflow-hidden rounded border border-slate-200 bg-white text-[10px] font-medium uppercase text-slate-400">
+                  <span className="border-r border-slate-200 py-1">ate 12h</span>
+                  <span className="py-1">apos 13h</span>
+                </div>
               </div>
             ))}
           </div>
@@ -597,14 +602,25 @@ function TimelineCalendar() {
                     </div>
                   </div>
                   {days.map((day, dayIndex) => {
-                    const isStart = dayIndex === room.reservation.start;
-                    const isInside = dayIndex >= room.reservation.start && dayIndex < room.reservation.start + room.reservation.span;
+                    const startSlot = room.reservation.startSlot ?? room.reservation.start * slotsPerDay + 1;
+                    const spanSlots = room.reservation.spanSlots ?? Math.max(1, room.reservation.span * slotsPerDay - 1);
+                    const dayStartSlot = dayIndex * slotsPerDay;
+                    const dayEndSlot = dayStartSlot + slotsPerDay;
+                    const isStart = startSlot >= dayStartSlot && startSlot < dayEndSlot;
+                    const isInside = startSlot < dayEndSlot && startSlot + spanSlots > dayStartSlot;
+                    const leftOffset = isStart ? (startSlot - dayStartSlot) * 50 : 0;
+                    const visibleSlotsFromThisDay = Math.min(startSlot + spanSlots, days.length * slotsPerDay) - Math.max(startSlot, dayStartSlot);
+                    const widthPercent = visibleSlotsFromThisDay * 50;
                     return (
                       <div className="relative min-h-20 border-l border-slate-200 p-2" key={day}>
+                        <div className="absolute inset-y-2 left-1/2 border-l border-dashed border-slate-200" />
                         {isStart ? (
                           <button
-                            className={`${room.reservation.tone} absolute left-2 top-3 z-10 h-14 rounded-md px-3 text-left text-xs text-white shadow-md`}
-                            style={{ width: `calc(${room.reservation.span * 100}% - 1rem)` }}
+                            className={`${room.reservation.tone} absolute top-3 z-10 h-14 rounded-md px-3 text-left text-xs text-white shadow-md`}
+                            style={{
+                              left: `calc(${leftOffset}% + 0.5rem)`,
+                              width: `calc(${widthPercent}% - 1rem)`
+                            }}
                             type="button"
                           >
                             <span className="block truncate font-semibold">{room.reservation.guest}</span>
@@ -612,7 +628,12 @@ function TimelineCalendar() {
                             <span className="mt-1 inline-flex rounded bg-white/20 px-1.5 py-0.5">{room.reservation.status}</span>
                           </button>
                         ) : null}
-                        {!isInside ? <div className="h-full rounded-md border border-dashed border-slate-200 bg-slate-50/60" /> : null}
+                        {!isInside ? (
+                          <div className="grid h-full grid-cols-2 gap-1">
+                            <div className="rounded-md border border-dashed border-slate-200 bg-slate-50/60" />
+                            <div className="rounded-md border border-dashed border-slate-200 bg-slate-50/60" />
+                          </div>
+                        ) : null}
                       </div>
                     );
                   })}

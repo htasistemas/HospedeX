@@ -52,6 +52,8 @@ export const timelineRooms = [
           channel: "Direto",
           start: 1,
           span: 3,
+          startSlot: 3,
+          spanSlots: 5,
           tone: "bg-teal-600"
         }
       },
@@ -66,6 +68,8 @@ export const timelineRooms = [
           channel: "HospedeX",
           start: 4,
           span: 2,
+          startSlot: 9,
+          spanSlots: 3,
           tone: "bg-emerald-600"
         }
       },
@@ -80,6 +84,8 @@ export const timelineRooms = [
           channel: "Booking",
           start: 0,
           span: 2,
+          startSlot: 0,
+          spanSlots: 3,
           tone: "bg-amber-500"
         }
       }
@@ -99,6 +105,8 @@ export const timelineRooms = [
           channel: "OTA",
           start: 2,
           span: 4,
+          startSlot: 5,
+          spanSlots: 7,
           tone: "bg-indigo-600"
         }
       },
@@ -113,6 +121,8 @@ export const timelineRooms = [
           channel: "Corporativo",
           start: 0,
           span: 5,
+          startSlot: 1,
+          spanSlots: 9,
           tone: "bg-sky-600"
         }
       }
@@ -132,6 +142,8 @@ export const timelineRooms = [
           channel: "Governanca",
           start: 1,
           span: 2,
+          startSlot: 2,
+          spanSlots: 4,
           tone: "bg-rose-600"
         }
       }
