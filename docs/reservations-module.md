@@ -17,7 +17,7 @@ O modulo de Reservas e o centro de controle comercial e operacional da hospedage
 
 ## Banco PostgreSQL
 
-A estrutura esta definida em `apps/api/database/migrations/001_create_reservations.sql`.
+A estrutura esta definida em `apps/api/database/migrations/001_esquema_hospedex_portugues.sql`.
 
 Padroes obrigatorios aplicados:
 

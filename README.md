@@ -16,7 +16,8 @@ O primeiro modulo estruturado e o de Reservas. A documentacao tecnica completa e
 
 - [docs/reservations-module.md](docs/reservations-module.md)
 - [docs/reservations-erd.md](docs/reservations-erd.md)
-- [apps/api/database/migrations/001_create_reservations.sql](apps/api/database/migrations/001_create_reservations.sql)
+- [apps/api/database/migrations/001_esquema_hospedex_portugues.sql](apps/api/database/migrations/001_esquema_hospedex_portugues.sql)
+- [apps/api/database/migrations/002_seed_desenvolvimento.sql](apps/api/database/migrations/002_seed_desenvolvimento.sql)
 
 ## Comandos
 

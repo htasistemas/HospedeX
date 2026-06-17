@@ -27,6 +27,11 @@ npm run build
 npm run test
 ```
 
+Usuario de desenvolvimento para a tela de login:
+
+- E-mail: `admin@hospedex.com.br`
+- Senha: `admin123`
+
 ## GitHub Actions configurado
 
 - `.github/workflows/ci.yml`: roda testes e build em `push`, `pull_request` e execucao manual.

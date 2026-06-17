@@ -1,6 +1,6 @@
 import { Column, Entity, Index, PrimaryColumn } from "typeorm";
 
-@Entity("room_types")
+@Entity("tipos_quarto")
 @Index(["tenantId", "code"], { unique: true })
 export class RoomTypeOrmEntity {
   @PrimaryColumn("uuid")
@@ -15,15 +15,15 @@ export class RoomTypeOrmEntity {
   @Column({ type: "varchar", length: 30 })
   code!: string;
 
-  @Column({ name: "capacity_adults", type: "int" })
+  @Column({ name: "capacidade_adultos", type: "int" })
   capacityAdults!: number;
 
-  @Column({ name: "capacity_children", type: "int" })
+  @Column({ name: "capacidade_criancas", type: "int" })
   capacityChildren!: number;
 
-  @Column({ name: "base_rate", type: "numeric", precision: 12, scale: 2 })
+  @Column({ name: "tarifa_base", type: "numeric", precision: 12, scale: 2 })
   baseRate!: string;
 
-  @Column({ type: "boolean", default: true })
+  @Column({ name: "ativo", type: "boolean", default: true })
   active!: boolean;
 }

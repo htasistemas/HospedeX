@@ -1,6 +1,6 @@
 import { Column, CreateDateColumn, Entity, PrimaryGeneratedColumn } from "typeorm";
 
-@Entity("audit_logs")
+@Entity("logs_auditoria")
 export class AuditLogOrmEntity {
   @PrimaryGeneratedColumn("uuid")
   id!: string;
@@ -8,27 +8,27 @@ export class AuditLogOrmEntity {
   @Column({ name: "tenant_id", type: "uuid" })
   tenantId!: string;
 
-  @Column({ name: "actor_id", type: "uuid", nullable: true })
+  @Column({ name: "ator_id", type: "uuid", nullable: true })
   actorId!: string | null;
 
-  @Column({ type: "varchar", length: 80 })
+  @Column({ name: "acao", type: "varchar", length: 80 })
   action!: string;
 
-  @Column({ name: "entity_name", type: "varchar", length: 80 })
+  @Column({ name: "entidade_nome", type: "varchar", length: 80 })
   entityName!: string;
 
-  @Column({ name: "entity_id", type: "uuid" })
+  @Column({ name: "entidade_id", type: "uuid" })
   entityId!: string;
 
-  @Column({ type: "jsonb", default: {} })
+  @Column({ name: "antes", type: "jsonb", default: {} })
   before!: Record<string, unknown>;
 
-  @Column({ type: "jsonb", default: {} })
+  @Column({ name: "depois", type: "jsonb", default: {} })
   after!: Record<string, unknown>;
 
   @Column({ name: "correlation_id", type: "varchar", length: 120 })
   correlationId!: string;
 
-  @CreateDateColumn({ name: "created_at" })
+  @CreateDateColumn({ name: "criado_em" })
   createdAt!: Date;
 }

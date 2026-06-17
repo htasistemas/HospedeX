@@ -1,70 +1,89 @@
-# Diagrama Relacional - Modulo de Reservas
+# Diagrama Relacional - Banco em Portugues
 
 ```mermaid
 erDiagram
-  ROOM_TYPES ||--o{ ROOMS : classifica
-  ROOM_TYPES ||--o{ RATE_PLANS : precifica
-  ROOM_TYPES ||--o{ RESERVATIONS : solicita
-  ROOMS ||--o{ RESERVATIONS : aloca
-  GROUP_RESERVATIONS ||--o{ RESERVATIONS : agrupa
-  RESERVATIONS ||--o{ WAITLIST_ENTRIES : aguarda
-  RESERVATIONS ||--o{ RESERVATION_HISTORY : historico
-  RESERVATIONS ||--o{ AUDIT_LOGS : audita
+  TENANTS ||--o{ PROPRIEDADES : possui
+  TENANTS ||--o{ USUARIOS : possui
+  PERFIS ||--o{ USUARIOS : define
+  TIPOS_QUARTO ||--o{ QUARTOS : classifica
+  TIPOS_QUARTO ||--o{ PLANOS_TARIFARIOS : precifica
+  TIPOS_QUARTO ||--o{ RESERVAS : solicita
+  HOSPEDES ||--o{ RESERVAS : realiza
+  QUARTOS ||--o{ RESERVAS : aloca
+  RESERVAS_GRUPO ||--o{ RESERVAS : agrupa
+  RESERVAS ||--o{ LISTA_ESPERA : aguarda
+  RESERVAS ||--o{ HISTORICO_RESERVAS : historico
+  RESERVAS ||--o{ CHECKINS : entrada
+  RESERVAS ||--o{ CHECKOUTS : saida
+  QUARTOS ||--o{ LIMPEZAS_QUARTO : governanca
+  QUARTOS ||--o{ CHAMADOS_MANUTENCAO : manutencao
+  PRODUTOS ||--o{ ESTOQUE_MOVIMENTOS : movimenta
+  PDV_VENDAS ||--o{ PDV_ITENS_VENDA : possui
+  RESERVAS ||--o{ FINANCEIRO_CONTAS_RECEBER : gera
+  TENANTS ||--o{ LOGS_AUDITORIA : audita
 
-  ROOM_TYPES {
+  TENANTS {
     uuid id PK
-    uuid tenant_id
-    varchar name
+    varchar nome
+    varchar documento
+    boolean ativo
+  }
+
+  USUARIOS {
+    uuid id PK
+    uuid tenant_id FK
+    uuid perfil_id FK
+    varchar nome
+    varchar email
+    varchar senha_hash
+    boolean ativo
+  }
+
+  TIPOS_QUARTO {
+    uuid id PK
+    uuid tenant_id FK
+    varchar nome
     varchar code
-    int capacity_adults
-    int capacity_children
-    numeric base_rate
-    boolean active
+    int capacidade_adultos
+    int capacidade_criancas
+    numeric tarifa_base
+    boolean ativo
   }
 
-  ROOMS {
+  QUARTOS {
     uuid id PK
-    uuid tenant_id
-    uuid room_type_id FK
-    varchar number
-    varchar floor
+    uuid tenant_id FK
+    uuid tipo_quarto_id FK
+    varchar numero
+    varchar andar
     enum status
-    boolean active
+    boolean ativo
   }
 
-  RATE_PLANS {
+  RESERVAS {
     uuid id PK
-    uuid tenant_id
-    uuid room_type_id FK
-    varchar name
-    varchar type
-    numeric base_rate
-    jsonb dynamic_rules
-  }
-
-  RESERVATIONS {
-    uuid id PK
-    uuid tenant_id
+    uuid tenant_id FK
     varchar code
-    uuid guest_id
-    varchar guest_name
-    uuid room_type_id FK
-    uuid room_id FK
-    uuid group_reservation_id FK
-    date check_in_date
-    date check_out_date
-    enum origin
+    uuid hospede_id FK
+    varchar nome_hospede
+    uuid tipo_quarto_id FK
+    uuid quarto_id FK
+    uuid reserva_grupo_id FK
+    date data_entrada
+    date data_saida
+    enum origem
     enum status
-    numeric total_amount
+    numeric valor_total
   }
 
-  GROUP_RESERVATIONS {
+  LOGS_AUDITORIA {
     uuid id PK
-    uuid tenant_id
-    varchar name
-    uuid company_id
-    varchar event_name
-    uuid[] blocked_room_ids
-    jsonb rooming_list
+    uuid tenant_id FK
+    uuid ator_id FK
+    varchar acao
+    varchar entidade_nome
+    uuid entidade_id
+    jsonb antes
+    jsonb depois
   }
 ```

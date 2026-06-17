@@ -1,7 +1,7 @@
 import { Column, CreateDateColumn, Entity, PrimaryColumn, UpdateDateColumn } from "typeorm";
 import { RoomingListItem } from "../../domain/group-reservation.entity";
 
-@Entity("group_reservations")
+@Entity("reservas_grupo")
 export class GroupReservationOrmEntity {
   @PrimaryColumn("uuid")
   id!: string;
@@ -12,27 +12,27 @@ export class GroupReservationOrmEntity {
   @Column({ type: "varchar", length: 160 })
   name!: string;
 
-  @Column({ name: "company_id", type: "uuid", nullable: true })
+  @Column({ name: "empresa_id", type: "uuid", nullable: true })
   companyId!: string | null;
 
-  @Column({ name: "event_name", type: "varchar", length: 160, nullable: true })
+  @Column({ name: "nome_evento", type: "varchar", length: 160, nullable: true })
   eventName!: string | null;
 
-  @Column({ name: "check_in_date", type: "date" })
+  @Column({ name: "data_entrada", type: "date" })
   checkInDate!: string;
 
-  @Column({ name: "check_out_date", type: "date" })
+  @Column({ name: "data_saida", type: "date" })
   checkOutDate!: string;
 
-  @Column({ name: "blocked_room_ids", type: "uuid", array: true })
+  @Column({ name: "quartos_bloqueados_ids", type: "uuid", array: true })
   blockedRoomIds!: string[];
 
-  @Column({ name: "rooming_list", type: "jsonb", default: [] })
+  @Column({ name: "lista_hospedes", type: "jsonb", default: [] })
   roomingList!: RoomingListItem[];
 
-  @CreateDateColumn({ name: "created_at" })
+  @CreateDateColumn({ name: "criado_em" })
   createdAt!: Date;
 
-  @UpdateDateColumn({ name: "updated_at" })
+  @UpdateDateColumn({ name: "atualizado_em" })
   updatedAt!: Date;
 }
