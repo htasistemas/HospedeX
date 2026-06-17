@@ -27,7 +27,7 @@
   },
   "devDependencies": {
     "@nestjs/cli": "^10.4.2",
-    "@nestjs/testing": "^10.4.1",
+    "@nestjs/testing": "^11.1.27",
     "@types/jest": "^29.5.12",
     "@types/node": "^20.14.15",
     "eslint": "^9.8.0",
