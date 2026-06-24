@@ -43,7 +43,7 @@ jobs:
         run: pnpm -r build
 
       - name: Commit generated changes
-        uses: stefanzweifel/git-auto-commit-action@v5
+        uses: stefanzweifel/git-auto-commit-action@v7
         with:
           commit_message: ${{ github.event.inputs.commit_message }}
           branch: ${{ github.ref_name }}
